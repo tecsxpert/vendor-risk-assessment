@@ -5,119 +5,146 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
 @Table(name = "vendors")
+@EntityListeners(AuditingEntityListener.class)
 public class Vendor {
 
-    // Primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    // Vendor company name
-    @Column(name = "vendor_name", nullable = false)
+    @Column(name = "vendor_name", nullable = false, length = 255)
     private String vendorName;
 
-    // Contact person
-    @Column(name = "contact_person")
+    @Column(name = "contact_person", length = 255)
     private String contactPerson;
 
-    // Email
-    @Column(unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false, length = 255)
     private String email;
 
-    // Phone number
+    @Column(name = "phone", length = 20)
     private String phone;
 
-    // Risk score
     @Column(name = "risk_score")
     private Integer riskScore;
 
-    // Status
+    @Column(name = "status", length = 50)
     private String status;
 
-    // Description
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    // Review date
     @Column(name = "review_date")
     private LocalDate reviewDate;
 
-    // Soft delete
-    private Boolean deleted = false;
+    @Column(name = "deleted", nullable = false)
+    private Boolean deleted = Boolean.FALSE;
 
-    // Created timestamp
-    @Column(name = "created_at")
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // Updated timestamp
-    @Column(name = "updated_at")
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    // ==========================================
-    // Getters and Setters
-    // ==========================================
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setId(Long id) { this.id = id; }
-
-    public String getVendorName() { return vendorName; }
+    public String getVendorName() {
+        return vendorName;
+    }
 
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
 
-    public String getContactPerson() { return contactPerson; }
+    public String getContactPerson() {
+        return contactPerson;
+    }
 
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
     }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getPhone() { return phone; }
+    public String getPhone() {
+        return phone;
+    }
 
-    public void setPhone(String phone) { this.phone = phone; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    public Integer getRiskScore() { return riskScore; }
+    public Integer getRiskScore() {
+        return riskScore;
+    }
 
     public void setRiskScore(Integer riskScore) {
         this.riskScore = riskScore;
     }
 
-    public String getStatus() { return status; }
+    public String getStatus() {
+        return status;
+    }
 
-    public void setStatus(String status) { this.status = status; }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public LocalDate getReviewDate() { return reviewDate; }
+    public LocalDate getReviewDate() {
+        return reviewDate;
+    }
 
     public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
 
-    public Boolean getDeleted() { return deleted; }
+    public Boolean getDeleted() {
+        return deleted;
+    }
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
