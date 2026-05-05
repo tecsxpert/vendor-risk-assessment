@@ -1,7 +1,13 @@
+package com.internship.tool.service;
+
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import com.internship.tool.repository.VendorRepository;
+import com.internship.tool.entity.Vendor;
 
 @Service
 public class VendorService {
@@ -22,15 +28,14 @@ public class VendorService {
     }
 
     // Evict cache on create
-    @CacheEvict(value = {"vendors", "vendorsAll"}, allEntries = true)
+    @CacheEvict(value = { "vendors", "vendorsAll" }, allEntries = true)
     public Vendor createVendor(Vendor vendor) {
         return vendorRepository.save(vendor);
     }
 
     // Evict cache on delete
-    @CacheEvict(value = {"vendors", "vendorsAll"}, allEntries = true)
+    @CacheEvict(value = { "vendors", "vendorsAll" }, allEntries = true)
     public void deleteVendor(Long id) {
         vendorRepository.deleteById(id);
     }
 }
-
