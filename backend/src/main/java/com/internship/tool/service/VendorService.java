@@ -13,8 +13,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 @Service
 public class VendorService {
 
@@ -47,21 +45,5 @@ public class VendorService {
     @CacheEvict(value = {"vendors", "vendorsAll"}, allEntries = true)
     public Vendor updateVendor(Long id, Vendor vendorDetails) {
         Vendor vendor = vendorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found with id: " + id));
-
-        vendor.setName(vendorDetails.getName());
-        vendor.setEmail(vendorDetails.getEmail());
-
-        return vendorRepository.save(vendor);
-    }
-
-    // ✅ Delete Vendor
-    @CacheEvict(value = {"vendors", "vendorsAll"}, allEntries = true)
-    public void deleteVendor(Long id) {
-        Vendor vendor = vendorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found with id: " + id));
-        vendorRepository.delete(vendor);
-    }
-}
-
+                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found
 
