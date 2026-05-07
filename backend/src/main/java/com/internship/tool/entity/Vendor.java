@@ -9,21 +9,26 @@ import jakarta.persistence.Column;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Email;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table(name = "vendors")
+@Schema(description = "Vendor entity")
 public class Vendor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Unique identifier of the vendor", example = "1")
     private Long id;
 
     @NotBlank
     @Column(nullable = false)
+    @Schema(description = "Name of the vendor", example = "ABC Corp")
     private String name;
 
     @Email
     @Column(nullable = false, unique = true)
+    @Schema(description = "Email address of the vendor", example = "contact@abc.com")
     private String email;
 
     // ✅ Getters and Setters
