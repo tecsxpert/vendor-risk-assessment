@@ -2,24 +2,40 @@ package com.internship.tool.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
 @Configuration
 public class MailConfig {
+    private static final Logger logger = LoggerFactory.getLogger(MailConfig.class);
+
+    @Value("${mail.smtp.host:smtp.gmail.com}")
+    private String smtpHost;
+
+    @Value("${mail.smtp.port:587}")
+    private int smtpPort;
+
+    @Value("${mail.smtp.username:your-email@gmail.com}")
+    private String smtpUsername;
+
+    @Value("${mail.smtp.password:your-app-password}")
+    private String smtpPassword;
 
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");   // adjust if using another SMTP
-        mailSender.setPort(587);
-        mailSender.setUsername("your-email@gmail.com");
-        mailSender.setPassword("your-app-password");
+        mailSender.setHost(smtpHost);
+        mailSender.setPort(smtpPort);
+        mailSender.setUsername(smtpUsername);
+        mailSender.setPassword(smtpPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

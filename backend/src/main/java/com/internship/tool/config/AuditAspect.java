@@ -6,31 +6,26 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Aspect
 @Component
 public class AuditAspect {
+    private static final Logger logger = LoggerFactory.getLogger(AuditAspect.class);
 
-    // Inject audit service
     @Autowired
     private AuditLogService auditLogService;
 
-    // ==========================================
-    // Intercept create/update/delete methods
-    // ==========================================
     @Around("execution(* com.internship.tool.service.*.create*(..)) || " +
             "execution(* com.internship.tool.service.*.update*(..)) || " +
             "execution(* com.internship.tool.service.*.delete*(..))")
     public Object logAudit(ProceedingJoinPoint joinPoint) throws Throwable {
-
         String methodName = joinPoint.getSignature().getName();
+        logger.info("Audit Start: {}", methodName);
 
-        System.out.println("Audit Start: " + methodName);
-
-        // Execute actual service method
         Object result = joinPoint.proceed();
 
-        // Save audit log entry
         auditLogService.saveAudit(
                 methodName,
                 "Vendor",
@@ -38,8 +33,7 @@ public class AuditAspect {
                 "new json"
         );
 
-        System.out.println("Audit Success: " + methodName);
-
+        logger.info("Audit Success: {}", methodName);
         return result;
     }
 }

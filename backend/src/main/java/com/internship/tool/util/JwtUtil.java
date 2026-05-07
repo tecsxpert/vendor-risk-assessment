@@ -1,10 +1,13 @@
 package com.internship.tool.util;
 
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,8 +16,13 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
-    private final String SECRET_KEY = "secret123"; // ⚠️ In real apps, use env variable
+    @Value("${jwt.secret:change-me-in-production}")
+    private String SECRET_KEY;
+
+    @Value("${jwt.expiration:3600000}")
+    private long EXPIRATION_TIME;
 
     // ✅ Extract username from token
     public String extractUsername(String token) {
