@@ -1,0 +1,84 @@
+[33mcommit 3ad6a3ed9c65119a6e4a9e3a7dfe78a110635d73[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mday10-service-tests[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Thu May 7 20:08:10 2026 +0530
+
+    Update VendorService with Day 10 changes
+
+[33mcommit 0f3b1d5f6d7c46a0675affd4565750828a450d3a[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Thu May 7 19:53:35 2026 +0530
+
+    Day 10: JUnit 5 unit tests for VendorService with Mockito
+
+[33mcommit 06de5977df61f67070a526cae9770d532d6e08de[m[33m ([m[1;32mday9-file-attachments[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Thu May 7 19:41:16 2026 +0530
+
+    Day 9: File upload and retrieval with validation and UUID filenames
+
+[33mcommit 2da13f477e4c1bcaa4e76dc50fbe2997930309fa[m[33m ([m[1;32mday8-global-exception-handler[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Thu May 7 19:33:05 2026 +0530
+
+    Day 8: Global exception handling with @ControllerAdvice
+
+[33mcommit 31b34d02040c13613485ac83c7a6d7857d450592[m[33m ([m[1;32mday7-email-notifications[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Thu May 7 18:52:42 2026 +0530
+
+    Day 7: Email notifications with JavaMailSender and Thymeleaf
+
+[33mcommit 45987b570f5b37cc01446abd86073fa9ae1eb503[m[33m ([m[1;32mday6-java-dev1-cache[m[33m, [m[1;32mday5-java-dev1-jwt[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 12:55:50 2026 +0530
+
+    Day 6 – Redis caching with TTL and cache eviction
+
+[33mcommit 1bde8492c684ed5e3c898475d573a636dc73a0b3[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 08:48:15 2026 +0530
+
+    Day 5 – Java Developer 1: JWT Authentication
+
+[33mcommit 96bd5a98ba049b10ca0195430db31411bb7e5e99[m[33m ([m[1;32mday7-java-dev1-report[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 08:26:16 2026 +0530
+
+    Day 7 – Java Developer 1: Vendor Risk Reports
+
+[33mcommit aca2f7617e020562d614eef37c34edaac8f8f9fd[m[33m ([m[1;32mday6-java-dev1-risk[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 08:20:35 2026 +0530
+
+    Day 6 – Java Developer 1: Vendor Risk Assessment Scoring
+
+[33mcommit 6827f98e03be7dbaa04e9dbbcbd29420aded0f8b[m[33m ([m[1;32mday5-java-dev1-security[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 08:11:31 2026 +0530
+
+    Day 5 – Java Developer 1: Authentication & RBAC Security
+
+[33mcommit 57daabe087bb17af820667e2e6df5a493f49784a[m[33m ([m[1;32mday4-java-dev1-vendor[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 07:53:14 2026 +0530
+
+    Day 4 – Java Developer 1: Vendor Entity, Repository, Service, Controller, and Tests
+
+[33mcommit 963218d470c9234ec3870d1b01e5a5ab30fbcc24[m[33m ([m[1;32mday1-java-dev-setup[m[33m)[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 00:13:12 2026 +0530
+
+    Day 4 — Vendor Controller APIs implemented
+
+[33mcommit 65a702bd875a0afce7a6fb138bc791402253feeb[m
+Merge: 93cef4e 579ecc2
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sun May 3 00:07:56 2026 +0530
+
+    Resolved merge conflict in VendorService
+
+[33mcommit 93cef4e3dfc230cb15e5b46dcf9dad1054a6533d[m
+Author: Apoorva668 <apoorvaReddy170@gmail.com>
+Date:   Sat May 2 23:54:54 2026 +0530
+
+    Day 3 — Service layer with validation (Java Dev 1)
