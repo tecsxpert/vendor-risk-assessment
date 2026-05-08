@@ -1,36 +1,51 @@
+package com.internship.tool.controller;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
-
-
-
+import java.util.Map;
+import javax.mail.MessagingException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import com.internship.tool.entity.Vendor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
-@RequestMapping("/api/vendors")
+@Tag(name = "Vendor Management", description = "APIs for managing vendors")
 public class VendorController {
 
-    private final VendorService vendorService;
+    @Autowired
+    private VendorService vendorService;
 
-    public VendorController(VendorService vendorService) {
-        this.vendorService = vendorService;
-    }
+    @Autowired
+    private NotificationService notificationService;
 
-    @PostMapping
-    public ResponseEntity<Vendor> createVendor(@Valid @RequestBody Vendor vendor) {
-        return ResponseEntity.ok(vendorService.saveVendor(vendor));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Vendor> getVendor(@PathVariable Long id) {
-        return ResponseEntity.ok(vendorService.getVendorById(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<Vendor>> listVendors(Pageable pageable) {
-        return ResponseEntity.ok(vendorService.getAllVendors(pageable));
+    @PostMapping("/create")
+    @Operation(summary = "Create a new vendor", description = "Creates a new vendor and sends a notification email")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Vendor created successfully",
+                content = @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Vendor.class))),
+        @ApiResponse(responseCode = "400", description = "Invalid vendor data",
+                content = @Content)
+    })
+    public Vendor createVendor(@RequestBody Vendor vendor) throws MessagingException {
+        Vendor saved = vendorService.save(vendor);
+        notificationService.sendVendorCreatedEmail("recipient@example.com", saved.getName());
+        return saved;
     }
 }
