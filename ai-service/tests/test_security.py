@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+AI_SERVICE_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(AI_SERVICE_ROOT))
+
 from app import create_app
 from services.groq_client import InputValidationError, sanitize_vendor_text
 
