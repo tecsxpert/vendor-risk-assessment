@@ -22,21 +22,24 @@ services:
     depends_on:
       - postgres
       - redis
+      - ai-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vendor_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres123
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_PROFILES_ACTIVE: docker
+      AI_SERVICE_URL: http://ai-service:5000
     ports:
       - "8080:8080"
 
   ai-service:
-    image: python:3.11-slim
+    build: ./ai-service
     container_name: vendor_ai
-    command: python -m http.server 8000
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
     ports:
-      - "8000:8000"
+      - "5000:5000"
 
   frontend:
     image: nginx:alpine

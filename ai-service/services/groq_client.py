@@ -45,6 +45,12 @@ Region: {region}
 PROMPT_INJECTION_PATTERNS = [
     r"ignore\s+previous",
     r"system\s+prompt",
+    r"developer\s+message",
+    r"reveal\s+(the\s+)?prompt",
+    r"jailbreak",
+    r"act\s+as",
+    r"forget\s+(all\s+)?instructions",
+    r"bypass\s+(security|rules|policy)",
 ]
 
 
@@ -60,11 +66,24 @@ class ClassificationResult:
 
 
 def sanitize_vendor_text(text: str):
+    if not isinstance(text, str):
+        raise InputValidationError("Text must be a string")
+
     if not text or len(text.strip()) < 10:
         raise InputValidationError("Text must be at least 10 characters")
 
-    flagged = any(re.search(p, text.lower()) for p in PROMPT_INJECTION_PATTERNS)
-    return text.strip(), flagged
+    cleaned = re.sub(r"<[^>]*>", "", text)
+    cleaned = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", cleaned)
+    cleaned = cleaned.strip()
+
+    if len(cleaned) < 10:
+        raise InputValidationError("Text must be at least 10 characters after sanitisation")
+
+    flagged = any(re.search(p, cleaned.lower()) for p in PROMPT_INJECTION_PATTERNS)
+    if flagged:
+        raise InputValidationError("Potential prompt injection detected")
+
+    return cleaned, flagged
 
 
 class GroqRiskClient:

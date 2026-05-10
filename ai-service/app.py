@@ -1,5 +1,8 @@
 import time
 from flask import Flask, jsonify, request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_talisman import Talisman
 
 from services.groq_client import (
     GroqRiskClient,
@@ -12,7 +15,49 @@ DEFAULT_MODEL = "llama-3.3-70b-versatile"
 
 def create_app():
     app = Flask(__name__)
+    Talisman(
+        app,
+        force_https=False,
+        frame_options="DENY",
+        content_security_policy={
+            "default-src": "'self'",
+            "img-src": "'self' data:",
+            "style-src": "'self' 'unsafe-inline'",
+        },
+    )
+    limiter = Limiter(
+        get_remote_address,
+        app=app,
+        default_limits=["30 per minute"],
+        headers_enabled=True,
+    )
     client = GroqRiskClient(model=DEFAULT_MODEL)
+
+    @app.errorhandler(429)
+    def rate_limit_handler(error):
+        retry_after = getattr(error, "retry_after", None)
+        return jsonify({
+            "status": "error",
+            "code": "RATE_LIMIT_EXCEEDED",
+            "message": "Too many requests. Please retry later.",
+            "retry_after": retry_after,
+        }), 429
+
+    @app.after_request
+    def add_security_headers(response):
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+        return response
+
+    @app.route("/health", methods=["GET"])
+    def health():
+        return jsonify({
+            "status": "UP",
+            "service": "vendor-risk-ai-service",
+            "model": DEFAULT_MODEL,
+        })
 
     # =========================
     # 1. CATEGORISE ENDPOINT
@@ -78,6 +123,7 @@ def create_app():
     # 2. GENERATE REPORT ENDPOINT
     # =========================
     @app.route("/generate-report", methods=["POST"])
+    @limiter.limit("10 per minute")
     def generate_report():
         try:
             payload = request.get_json()
@@ -130,4 +176,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
